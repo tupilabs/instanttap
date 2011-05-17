@@ -1,27 +1,60 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<!-- The HTML 4.01 Transitional DOCTYPE declaration-->
-<!-- above set at the top of the file will set     -->
-<!-- the browser's rendering engine into           -->
-<!-- "Quirks Mode". Replacing this declaration     -->
-<!-- with a "Standards Mode" doctype is supported, -->
-<!-- but may lead to some differences in layout.   -->
-
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Hello App Engine</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>InstantTAP</title>
+    <meta name="description" content="InstantTAP Google WebApp." />
+    <link rel="stylesheet" href="css/screen.css" type="text/css" media="screen, projection" />
+    <link rel="stylesheet" href="css/print.css" type="text/css" media="print" />
+    <!--[if lt IE 8]><link rel="stylesheet" href="css/ie.css" type="text/css" media="screen, projection" /><![endif]-->
+    <link rel="stylesheet" href="css/tap.css" type="text/css" media="all" />
+    <script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
+    <script type="text/javascript">
+    $.ajaxSetup({
+      cache: false
+    });
+    var ajax_load = "Loading...";
+    $(document).ready(function() {
+      $("#submit").click(
+        function()
+        {
+          $("#output").html(ajax_load);
+          $.post( 
+            "instanttap.do", 
+            {
+              tap: $("#tap").val()
+            }, 
+            function( data ) {
+              $("#output").html( data );
+            }
+          );
+          return false;
+        }
+      );
+    });
+    </script>
   </head>
-
   <body>
-    <h1>Hello App Engine!</h1>
-	
-    <table>
-      <tr>
-        <td colspan="2" style="font-weight:bold;">Available Servlets:</td>        
-      </tr>
-      <tr>
-        <td><a href="instanttap">Instanttap</a></td>
-      </tr>
-    </table>
+    <div class="container">
+      <div class="span-24" id="header">
+        <h1>InstantTAP</h1>
+      </div>
+      <div class="span-24" id="body">
+        <div class="span-12">
+          <div class="info">Paste here your TAP Stream:</div>
+          <form action="" method="post">
+            <textarea name="tap" id="tap" wrap="off" style="width: 97%;"></textarea>
+            <input type="submit" name="submit" id="submit" value="Submit" />
+          </form>
+        </div>
+        <div class="span-12 last">
+          <!-- This div's content is updated using JQuery -->
+          <div id="output"></div>
+        </div>
+      </div>
+      <div class="span-24" id="footer">
+        <p class="small right"><a href="http://www.tap4j.org" title="tap4j">tap4j.org</a></p>
+      </div>
+    </div>
   </body>
 </html>
